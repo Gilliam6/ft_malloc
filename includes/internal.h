@@ -4,7 +4,7 @@
 /*
 ** stdarg.h - va_list
 ** stddef.h - NULL, alignof, max_align_t
-** unistd.h - mmap, getpagesize
+** unistd.h - mmap, getpagesize (Darwin), sysconf (Linux)
 ** sys/mman.h - PROT_READ, PROT_WRITE, MAP_ANON, MAP_PRIVATE
 ** errno.h - errno
 ** stdalign.h - alignof, max_align_t
@@ -57,8 +57,11 @@ void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				free(void *ptr);
 
-// macros
-# define PAGE_SIZE ((size_t)getpagesize())
+# if defined(__linux__)
+#  define PAGE_SIZE ((size_t)sysconf(_SC_PAGESIZE))
+# else
+#  define PAGE_SIZE ((size_t)getpagesize())
+# endif
 # define META_SIZE (sizeof(t_chunk))
 # define OFFSET (alignof(max_align_t) - sizeof(t_chunk)) % alignof(max_align_t)
 # define ALIGN (alignof(max_align_t)) // usually 8 or 16 depending on the architecture

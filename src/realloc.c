@@ -28,12 +28,12 @@ void	*realloc_chunk(void *pointer, size_t size)
 	if ((new = malloc(size)) != NULL)
 	{
 		ft_memcpy((void*)new, pointer, new_size);
-		free(pointer);
 		DEBUG_LOG("Realloc moved %zu bytes from %p to pointer %p of size: %zu\n"
 			, new_size
 			, pointer
 			, new
 			, size);
+		free(pointer);
 	}
 	else
 		DEBUG_LOG("Realloc failed to allocate pointer of size: %zu\n", size);
