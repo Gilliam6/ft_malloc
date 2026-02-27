@@ -25,6 +25,8 @@ $(LIBFT_DIR)/.fpic: $(wildcard $(LIBFT_DIR)/ft_*.c)
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/.fpic
 	$(CC) $(CFLAGS) $(DYLIB) $(OBJS) $(wildcard $(LIBFT_DIR)/*.o) -o $@
+	ln -sf $(NAME) libft_malloc.so
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -36,7 +38,7 @@ clean:
 	rm -f $(LIBFT_DIR)/.fpic
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) libft_malloc.so
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
