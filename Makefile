@@ -19,12 +19,12 @@ CFLAGS    = -Wall -Wextra -Werror -Wpedantic -fPIC -g
 # Первая цель = цель по умолчанию при вызове make (без аргументов)
 all: $(NAME)
 
-$(LIBFT_DIR)/.fpic: $(wildcard $(LIBFT_DIR)/ft_*.c)
+$(LIBFT_DIR)/libft.a: $(wildcard $(LIBFT_DIR)/ft_*.c)
 	$(MAKE) -C $(LIBFT_DIR) CFLAGS="-Wall -Wextra -Werror -fPIC"
 	@touch $@
 
-$(NAME): $(OBJS) $(LIBFT_DIR)/.fpic
-	$(CC) $(CFLAGS) $(DYLIB) $(OBJS) $(wildcard $(LIBFT_DIR)/*.o) -o $@
+$(NAME): $(OBJS) $(LIBFT_DIR)/libft.a
+	$(CC) $(CFLAGS) $(DYLIB) $(OBJS) $(LIBFT_DIR)/libft.a -o $@
 	ln -sf $(NAME) libft_malloc.so
 
 %.o: %.c
